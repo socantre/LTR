@@ -1,15 +1,15 @@
-# A Left To Right Type Syntax For C++
+# A Left To Right Declaration Syntax For C++
 
 ## Introduction
 
-This proposal presents a library component that introduces simple left-to-right (LTR) declaration syntax to C++. This is as opposed to the type expression syntax inherited from C.
+This proposal presents a library component that introduces simple left-to-right (LTR) declaration syntax to C++.
 
-C's original 'declaration mimics use' (DMU) concept has an appealing simplicity and elegance. The concept was consistently applied and avoided redundant syntax for declaring and using entities. However, it proved not to be universally practical and alternatives for some cases were introduced and became best practices. For example, C89 offered a more type-explicit alternative syntax for function declarations:
+C's original 'declaration mimics use' (DMU) concept focuses on expressions and has an appealing simplicity and elegance. The concept was consistently applied and avoided redundant syntax for declaring and using entities. However, it proved not to be universally practical and alternatives for some cases were introduced and became best practices. For example, C89 offered a more type-explicit alternative syntax for function declarations:
 
     int f(x,y); // K&R style (DMU)
     int f(int,int); // Alternative, current practice
 
-C++ goes further than C in placing emphasis on types [1] and introduces additional concepts that do not work well with DMU syntax. For example references, which have no associated 'use' syntax but must have distinct 'declaration' syntax, and member-pointers for which a DMU syntax would face the same problems as the original K&R function declarations.
+C++ places emphasis on types rather than on expressions [1] and introduces additional concepts that do not work well with C's DMU syntax. For example, references have no associated 'use' syntax but must have distinct 'declaration' syntax, and member-pointers for which a DMU syntax would face the same problems as the original K&R function declarations.
 
 I propose a library component that uses C++11 template type aliases to introduce a simple LTR declaration syntax that is more in line with C++'s emphasis on types, is more consistent with the typical C++ user's conception of declarations and with declarations for other templated types, and solves some issues currently dealt with using coding style conventions or mental tricks.
 
