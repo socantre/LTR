@@ -84,18 +84,18 @@ The LTR type resembles cdecl.org's 'English' explanation:
 
 - The LTR syntax is not universally usable. For example it cannot be used for a function definition or on a class definition:
 
-    func<int,int> times_two 
-    {
-        return arg1*2;
-    }
+        func<int,int> times_two 
+        {
+            return arg1*2;
+        }
 
-    ptr<struct S {}> sPtr;
+        ptr<struct S {}> sPtr;
 
 - The use of template type aliases doesn't mix with auto:
 
-    rref<auto> x = foo(); // auto &&x = foo();
+        rref<auto> x = foo(); // auto &&x = foo();
 
-    int bar(rref<auto> x); // int bar(auto &&x);
+        int bar(rref<auto> x); // int bar(auto &&x);
 
 [1]: http://www.stroustrup.com/bs_faq2.html#whitespace
 [2]: http://ieng9.ucsd.edu/~cs30x/rt_lt.rule.html
