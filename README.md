@@ -25,8 +25,6 @@ I propose a library component that uses C++11 template type aliases to introduce
 
 - DMU syntax is necessarily inconsistent with the syntax for templated types. Templated types naturally use a consistent LTR syntax instead of the 'inside-out' or 'spiral' ordering of the built-in type modifiers.
 
-- Language linkage is part of function types the syntax for declaring linkages but is not consistent with other type modifying syntax. Typedefs are required to manipulate a function type's language linkage below the level of a whole declaration.
-
 - Projects and individuals can use the solution I propose here, however including a solution in the standard offers additional benefits such as easy, direct availability to novice users and potentially wider usage.
 
 ## Solution
@@ -44,10 +42,7 @@ I propose a library component that uses C++11 template type aliases to introduce
     template<typename T, class C>             using mem_ptr   = T C::*;
     template<std::intmax_t N, typename T>     using raw_array = T[N];
     template<typename RetT, typename... Args> using func      = RetT(Args...);
-     
-    extern "C" template<typename T>   using c_linkage   = T;
-    extern "C++" template<typename T> using cpp_linkage = T;
-    
+
     } // namespace ltr
     } // namespace std
  
@@ -59,7 +54,6 @@ With this library, declarations can be read and written in an intuitive LTR fash
 - Limiting declarations to single variables is no longer necessary.
 - The emphasis on types over expressions is more 'C++ like.'
 - The template type alias syntax is consistent with the syntax for using other templated types.
-- Language linkage type modifiers are consistent with other type modifiers and templates.
 
 Additionally this library mixes well with the built-in syntax when desired. E.g:
 
@@ -76,7 +70,7 @@ The LTR type resembles cdecl.org's 'English' explanation:
 
 > declare bar as const pointer to array 5 of pointer to function (int) returning const pointer to char
 
-## Disadvantages
+## Issues
 
 - Using these template type aliases is not as compact as the built-in syntax.
 
@@ -96,6 +90,18 @@ The LTR type resembles cdecl.org's 'English' explanation:
         rref<auto> x = foo(); // auto &&x = foo();
 
         int bar(rref<auto> x); // int bar(auto &&x);
+
+- Typedefs are still required to produce a type specifier with a specific language linkage.
+
+        extern "C" typedef void c_function();
+        void cpp_function(c_function *f);
+    
+        // Ideally we could say:
+        extern "C" template<typename T> c_linkage = T;
+    
+        void cpp_function( ptr<c_linkage<void()>> f);
+
+ Instead of offering a single, reusable `c_linkage` type modifier one must define new typedefs as needed.
 
 [1]: http://www.stroustrup.com/bs_faq2.html#whitespace
 [2]: http://ieng9.ucsd.edu/~cs30x/rt_lt.rule.html
